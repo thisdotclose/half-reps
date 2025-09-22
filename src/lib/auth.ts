@@ -12,6 +12,11 @@ export const auth = betterAuth({
     enabled: true,
     requireEmailVerification: false,
     maxPasswordLength: 100,
+    minPasswordLength: 5,
     autoSignIn: true,
   },
+  session: {
+    expiresIn: 60 * 60 * 24 * 30, // 30 days
+    updateAge: 60 * 60 * 24, // 1 day
+  }
 });

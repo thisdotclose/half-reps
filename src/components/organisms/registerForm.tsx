@@ -23,6 +23,7 @@ export default function RegisterForm() {
       });
     } catch (err: unknown) {
       console.error(err);
+      console.log(err);
       setError("An error occurred during sign in");
     }
   };
