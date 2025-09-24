@@ -11,7 +11,7 @@ export default async function AuthLayout({
   const session = await auth.api.getSession({
     headers: await headers(),
   });
-  
+
   if (session) {
     redirect("/");
   }

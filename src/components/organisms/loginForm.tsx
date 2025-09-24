@@ -1,7 +1,10 @@
 "use client";
+import { signIn } from "@/services/client";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 export default function LoginForm() {
+  const router = useRouter();
   const [error, setError] = useState("");
   const [formData, setFormData] = useState({
     email: "",
@@ -10,7 +13,23 @@ export default function LoginForm() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError("");
+    try {
+      const res = await signIn.email({
+        email: formData.email,
+        password: formData.password,
+      });
+
+      if(res.error) {
+        setError(res.error?.message || "An error occurred during login");
+      } else {
+        router.push("/");
+      }
+
+    } catch (err: unknown) {
+      console.error(err);
+      console.log(err);
+      setError("An error occurred during login");
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
