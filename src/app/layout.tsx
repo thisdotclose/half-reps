@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Navbar from "@/components/organisms/Navbar";
+import Navbar from "@/components/molecules/navbar";
 
 export const metadata: Metadata = {
   title: "Half Reps",

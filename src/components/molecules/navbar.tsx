@@ -1,34 +1,21 @@
-"use client";
 import Link from "next/link";
-import { useSession, signOut } from "@/services/client";
+import { auth } from "@/lib/auth";
+import { LogoutButton } from "@/components/atoms/logoutButton";
+import { headers } from "next/headers";
 
-export default function Navbar() {
-  const { 
-    data: session, 
-    isPending,
-} = useSession()
-
-console.log(session);
-
-const handleLogout = async () => {
-  await signOut();
-}
+export default async function Navbar() {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
   return (
     <div className="flex justify-between items-center p-4 bg-gray-100">
       <h1 className="text-2xl font-bold">Half Reps</h1>
       <div className="flex gap-4">
-        {isPending ? (
-          <div>Loading...</div>
-        ) : session ? (
+        {session ? (
           <div className="flex gap-4 items-center">
             <span>Welcome, {session.user.name.split(" ")[0]}</span>
-            <button
-              onClick={handleLogout}
-              className="bg-red-500 text-white p-2 rounded-md hover:bg-red-600"
-            >
-              Logout
-            </button>
+            <LogoutButton />
           </div>
         ) : (
           <>

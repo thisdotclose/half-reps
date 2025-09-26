@@ -56,3 +56,32 @@ model Account {
   @@map("account")
 }
 
+
+model MuscleGroup {
+  id        String                   @id @default(cuid()) @map("_id")
+  name      String
+  exercises ExerciseOnMuscleGroup[]
+
+  @@map("muscle_group")
+}
+
+model Exercise {
+  id        String                   @id @default(cuid()) @map("_id")
+  name      String
+  description String?
+  muscleGroups ExerciseOnMuscleGroup[]
+
+  @@map("exercise")
+}
+
+model ExerciseOnMuscleGroup {
+  id            String      @id @default(cuid()) @map("_id")
+  exerciseId    String
+  muscleGroupId String
+
+  exercise   Exercise   @relation(fields: [exerciseId], references: [id])
+  muscleGroup MuscleGroup @relation(fields: [muscleGroupId], references: [id])
+
+  @@unique([exerciseId, muscleGroupId])
+  @@map("exercise_muscle_group")
+}
