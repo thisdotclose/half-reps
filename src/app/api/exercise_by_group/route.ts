@@ -1,7 +1,9 @@
 import { getExercisesByMuscleGroupId } from "@/services/server";
 import { NextResponse } from "next/server";
 
-export type GetExercisesByMuscleGroupIdResponse = Awaited<ReturnType<typeof getExercisesByMuscleGroupId>>;
+export type GetExercisesByMuscleGroupIdResponse = Awaited<
+  ReturnType<typeof getExercisesByMuscleGroupId>
+>;
 
 export const GET = async (request: Request) => {
   const { searchParams } = new URL(request.url);
@@ -13,5 +15,7 @@ export const GET = async (request: Request) => {
     );
   }
   const exercises = await getExercisesByMuscleGroupId(muscleGroupId);
-  return NextResponse.json(exercises);
+  return NextResponse.json(
+    exercises.sort((a, b) => a.name.localeCompare(b.name))
+  );
 };
