@@ -13,13 +13,18 @@ export function withAuth<P extends WithAuthProps>(
     return async function AuthenticatedComponent(
         props: Omit<P, keyof WithAuthProps>
     ) {
-        const session = await auth.api.getSession({
+        const sessionData = await auth.api.getSession({
             headers: await headers(),
         });
 
-        if (!session) {
+        if (!sessionData) {
             redirect("/login");
         }
+
+        const session = {
+            ...sessionData.session,
+            user: sessionData.user
+        };
 
         return (
             <WrappedComponent {...(props as P)} session={session} />

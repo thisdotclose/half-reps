@@ -14,7 +14,7 @@ export default function CreateExercisesForm({
 }: {
   muscleGroups: MuscleGroups;
 }) {
-  const [_, setIsModalOpen] = useAtom(modalOpenAtom);
+  const [, setIsModalOpen] = useAtom(modalOpenAtom);
   const queryClient = useQueryClient();
 
   const {

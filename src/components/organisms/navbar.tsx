@@ -4,7 +4,10 @@ import { signOut, useSession } from "@/services/client";
 import { useRouter } from "next/navigation";
 import { Session, User } from "better-auth";
 
-type SessionWithUser = Session & {
+
+
+type SessionWithUser = {
+  session: Session;
   user: User;
 };
 
