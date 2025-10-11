@@ -1,32 +1,40 @@
-import { useAtom } from "jotai";
-import { modalOpenAtom } from "@/utils/atoms";
+import { PrimitiveAtom, useAtom } from "jotai";
 
 export default function Modal({
-    children,
-  }: {
-    children: React.ReactNode;
-  }) {
+  title,
+  children,
+  atom,
+}: {
+  children: React.ReactNode;
+  title: string;
+  atom: PrimitiveAtom<boolean>;
+}) {
+  const [isOpen, setIsOpen] = useAtom(atom);
 
-    const [isOpen, setIsOpen] = useAtom(modalOpenAtom);
+  if (!isOpen) return null; // don’t render the dialog if it’s closed
 
-    if (!isOpen) return null; // don’t render the dialog if it’s closed
-  
-    return (
-      <dialog
-        open
-        className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-200 p-4 rounded-md w-1/2 flex flex-col justify-center items-center shadow-lg"
-      >
-        <div className="flex justify-between items-center w-full">
-          <h1>Modal</h1>
-          <button
-            className="bg-red-500 text-white p-2 rounded-md hover:bg-red-600"
-            onClick={() => setIsOpen(false)}
+  return (
+    <dialog
+      open
+      className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-200 p-2 rounded-md w-1/2 flex flex-col justify-center items-center shadow-lg"
+    >
+      <div className="relative flex justify-end items-center w-full">
+        <h1 className="absolute left-1/2 transform -translate-x-1/2">
+          {title}
+        </h1>
+        <button
+          className="text-black w-10 h-10 rounded-md hover:bg-gray-400 flex items-center justify-center relative"
+          onClick={() => setIsOpen(false)}
+        >
+          <span
+            className="absolute text-2xl font-light"
+            style={{ transform: "translateY(-3px)" }}
           >
-            X
-          </button>
-        </div>
-        {children}
-      </dialog>
-    );
-  }
-  
+            ×
+          </span>
+        </button>
+      </div>
+      {children}
+    </dialog>
+  );
+}

@@ -1,4 +1,4 @@
-import RegisterForm from "@/components/organisms/registerForm";
+import RegisterForm from "@/components/molecules/forms/registerForm";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";

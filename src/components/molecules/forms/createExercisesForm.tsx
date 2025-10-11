@@ -2,19 +2,22 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createExerciseSchema, type CreateExerciseInput } from "@/lib/validations/exercise";
+import {
+  createExerciseSchema,
+  type CreateExerciseInput,
+} from "@/lib/validations/exercise";
 import { createExercise } from "@/services/client/createExercise";
 import { useQueryClient } from "@tanstack/react-query";
 import { useAtom } from "jotai";
-import { modalOpenAtom } from "@/utils/atoms";
 import { MuscleGroups } from "@/app/(auth)/programs/page";
+import { createExerciseModalAtom } from "@/utils/atoms";
 
 export default function CreateExercisesForm({
   muscleGroups,
 }: {
   muscleGroups: MuscleGroups;
 }) {
-  const [, setIsModalOpen] = useAtom(modalOpenAtom);
+  const [, setIsModalOpen] = useAtom(createExerciseModalAtom);
   const queryClient = useQueryClient();
 
   const {
@@ -46,7 +49,10 @@ export default function CreateExercisesForm({
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div>
-        <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+        <label
+          htmlFor="name"
+          className="block text-sm font-medium text-gray-700"
+        >
           Exercise Name
         </label>
         <input
@@ -61,7 +67,10 @@ export default function CreateExercisesForm({
       </div>
 
       <div>
-        <label htmlFor="description" className="block text-sm font-medium text-gray-700">
+        <label
+          htmlFor="description"
+          className="block text-sm font-medium text-gray-700"
+        >
           Description (Optional)
         </label>
         <textarea
@@ -71,7 +80,9 @@ export default function CreateExercisesForm({
           rows={3}
         />
         {errors.description && (
-          <p className="mt-1 text-sm text-red-600">{errors.description.message}</p>
+          <p className="mt-1 text-sm text-red-600">
+            {errors.description.message}
+          </p>
         )}
       </div>
 
@@ -99,7 +110,9 @@ export default function CreateExercisesForm({
           ))}
         </div>
         {errors.muscleGroupIds && (
-          <p className="mt-1 text-sm text-red-600">{errors.muscleGroupIds.message}</p>
+          <p className="mt-1 text-sm text-red-600">
+            {errors.muscleGroupIds.message}
+          </p>
         )}
       </div>
 

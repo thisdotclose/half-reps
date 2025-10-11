@@ -7,7 +7,7 @@ import {
 import React, { useState } from "react";
 import Modal from "../molecules/modal";
 import { useQuery } from "@tanstack/react-query";
-import { modalOpenAtom } from "@/utils/atoms";
+import { createExerciseModalAtom } from "@/utils/atoms";
 import { useAtom } from "jotai";
 import CreateExercisesForm from "../molecules/forms/createExercisesForm";
 
@@ -16,12 +16,17 @@ export default function Exercises({
 }: {
   muscleGroups: MuscleGroups;
 }) {
-  const [selectedMuscleGroupId, setSelectedMuscleGroupId] = useState<string | null>(null);
-  const [_, setIsModalOpen] = useAtom(modalOpenAtom);
+  const [selectedMuscleGroupId, setSelectedMuscleGroupId] = useState<
+    string | null
+  >(null);
+  const [, setIsModalOpen] = useAtom(createExerciseModalAtom);
 
   const { data: exercises = [] } = useQuery({
-    queryKey: ['exercises', selectedMuscleGroupId],
-    queryFn: () => selectedMuscleGroupId ? getExercisesByMuscleGroup(selectedMuscleGroupId) : Promise.resolve([]),
+    queryKey: ["exercises", selectedMuscleGroupId],
+    queryFn: () =>
+      selectedMuscleGroupId
+        ? getExercisesByMuscleGroup(selectedMuscleGroupId)
+        : Promise.resolve([]),
     enabled: !!selectedMuscleGroupId,
     staleTime: 1000 * 60 * 5, // Data stays fresh for 5 minutes
     gcTime: 1000 * 60 * 30, // Cache is kept for 30 minutes
@@ -50,7 +55,7 @@ export default function Exercises({
       >
         Add Exercise
       </button>
-      <Modal>
+      <Modal title="Create Exercise" atom={createExerciseModalAtom}>
         <CreateExercisesForm muscleGroups={muscleGroups} />
       </Modal>
     </div>
